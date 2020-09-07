@@ -1,9 +1,12 @@
+import os
 import discord
 import ai_m2
 import random
 from discord.ext import commands
 from math import *
-TOKEN="NzUyMzYxNzI4MDM3MjI0NDQ4.X1Whdg.SWobGXljVtyul9FXxKswSSi2ciE"
+from dotenv import load_dotenv
+load_dotenv()
+TOKEN=os.getenv("TOKEN")
 bot = commands.Bot(command_prefix='v')
 r=random.random
 C="k x kq g ğ ŋ t s tq d z n th dh c ż š ž p f pq b v m j w r l h".split()

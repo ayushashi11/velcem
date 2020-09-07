@@ -1,6 +1,9 @@
+import os
 import ai_m2
 import discord
-TOKEN="NzUyMzYxNzI4MDM3MjI0NDQ4.X1Whdg.SWobGXljVtyul9FXxKswSSi2ciE"
+from dotenv import load_dotenv
+load_dotenv()
+TOKEN=os.getenv("TOKEN")
 GUILD=0
 client = discord.Client()
 @client.event

@@ -8,7 +8,7 @@ from random import randint
 from time import *
 from pyowm import *
 import json,random,sys
-#import speech
+import os
 from os import getcwd,system,scandir
 #from prompt_toolkit.shortcuts import input_dialog,message_dialog as pop
 #from wx import App,GetTextFromUser
@@ -19,6 +19,7 @@ from wikipedia import page,PageError,DisambiguationError
 from googlesearch import search as sch
 from requests.exceptions import *
 from urllib.error import *
+from dotenv import load_dotenv
 #from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 try:
       #import recog                         #comment this line for text input
@@ -26,7 +27,7 @@ try:
 except BaseException as e:
       print(e.args)
 print('setting up...')
-key='2223ec0573fa9465ff0aeff7557ccfc8'
+key=os.getenv("KEY")
 owm=OWM(key)
 sadface="😔 😟 ☹ 🥺 😢 😭 😞 😣 😖 😓 😩 😫".split()
 #speak=speech.setup_speech()
