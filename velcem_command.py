@@ -1,21 +1,26 @@
+import json
 import os
 import discord
 import ai_m2
 import random
 from discord.ext import commands
+from pyowm import *
 from math import *
 from dotenv import load_dotenv
 load_dotenv()
 TOKEN=os.getenv("TOKEN")
 bot = commands.Bot(command_prefix='v')
 r=random.random
-C="k x kq g ğ ŋ t s tq d z n th dh c ż š ž p f pq b v m j w r l h".split()
+DB=os.getenv("DBID")
+key=os.getenv("KEY")
+owm=OWM(key)
+C="k x kq g ğ ŋ t s tq d z n th dh c j š ž p f pq b v m y w r l h".split()
 c0=0.90
 c1=0.80
-L="r l j w".split()
+L="r l y w".split()
 L0=L+["kq","tq","pq"]
 l0=0.40*c0
-V1="y ý a á ă i í ĭ u ú ŭ o ó ŏ e é ĕ ai aí au aú".split()
+V1="ě ěě a aa á i ii í u uu ú e ee é o oo ó ë ëë ö öö".split()
 V=V1+["r","l"]
 V0="kq tq pq".split()
 N="ŋ n m".split()
@@ -74,4 +79,63 @@ async def create_channel(ctx, channel_name='collablang'):
     if not existing_channel:
         print(f'Creating a new channel: {channel_name}')
         await guild.create_text_channel(channel_name)
+@bot.command(name=".info",help="get server and user info")
+async def info(ctx):
+    ret = f"Guild id:- {ctx.guild.id}\nMembers:\n- "
+    ret += "\n- ".join([f"{'None' if (c:=member.nick) is None else c:<26}\|\|{member.name} {member.status}" for member in ctx.guild.members])
+    await ctx.send(ret)
+@bot.command(name=".weather")
+async def weather(ctx,city: str):
+    obs=owm.weather_at_place(city)
+    ret=json.loads(obs.to_JSON())['Weather']
+    print(ret)
+    await ctx.send(f'the weather conditions will most likely be {ret["detailed_status"]},\nTemperature will remain around {ret["temperature"]["temp"]-273.15}\u00b0C, Humidity {ret["humidity"]}%. Winds will blow at {ret["wind"]["speed"]*3.6} kph at {ret["wind"]["deg"]}\u00b0 from North')
+
+@bot.command(name=".add",help="add word to velcem-lexicon-database")
+async def add(ctx,*words):
+    for channel in ctx.guild.channels:
+        if channel.id == DB:
+            break
+    for word in words:
+        if "=" in word:
+            ws=word.split("=")
+            await channel.send(f"{ws[0]}\n{ws[1]}")
+        else:
+            await channel.send(f"{word}\n")
+@bot.command(name=".remove",help="remove word from velcem-lexicon-database")
+async def remove(ctx,word):
+    for channel in ctx.guild.channels:
+        if channel.id == DB:
+            break
+    async for m in channel.history():
+        txt=m.content.split("\n")
+        if txt[0]==word:
+            await m.delete()
+@bot.command(name=".edit_meaning",help="edit the meaning of a word in velcem-lexicon-database")
+async def editm(ctx,word,new):
+    for channel in ctx.guild.channels:
+        if channel.id == DB:
+            break
+    async for m in channel.history():
+        txt=m.content.split("\n")
+        if txt[0]==word:
+            await m.edit(content=f"{word}\n{new}")
+@bot.command(name=".edit",help="edit a word in velcem-lexicon-databse")
+async def edit(ctx,word,new_word):
+    for channel in ctx.guild.channels:
+        if channel.id == DB:
+            break
+    async for m in channel.history():
+        txt=m.content.split("\n")
+        if txt[0]==word:
+            await m.edit(content=f"{new_word}\n{txt[1]}")
+@bot.command(name=".meaning",help="get the meaning of the word")
+async def remove(ctx,word):
+    for channel in ctx.guild.channels:
+        if channel.id == DB:
+            break
+    async for m in channel.history():
+        txt=m.content.split("\n")
+        if txt[0]==word:
+            await ctx.send(f"the meaning of {word} is:-\n{txt[1]}")
 bot.run(TOKEN)
