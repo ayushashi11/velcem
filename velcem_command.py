@@ -11,7 +11,7 @@ load_dotenv()
 TOKEN=os.getenv("TOKEN")
 bot = commands.Bot(command_prefix='v')
 r=random.random
-DB=os.getenv("DBID")
+DB=int(os.getenv("DBID"))
 key=os.getenv("KEY")
 owm=OWM(key)
 C="k x kq g ğ ŋ t s tq d z n th dh c j š ž p f pq b v m y w r l h".split()
@@ -126,6 +126,9 @@ async def edit(ctx,word,new_word):
     for channel in ctx.guild.channels:
         if channel.id == DB:
             break
+    else:
+        await ctx.send(f"{DB} id not found")
+        return
     async for m in channel.history():
         txt=m.content.split("\n")
         if txt[0]==word:
