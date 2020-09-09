@@ -1,2 +1,1 @@
-bot: python velcem.py
-bot2: python velcem_command.py
+worker: python velcem.py & python velcem_command.py
