@@ -26,7 +26,7 @@ async def on_ready():
         f'{client.user} is connected to the following guild:\n'
         f'{guild.name}(id: {guild.id})'
     )
-    await channel.send("hey imma back" if not o else "")
+    await channel.send("aadib kěwaxyój!!" if not o else "")
     o = True
     members = '\n - '.join([member.name for member in guild.members])
     print(f'Guild Members:\n - {members}')
@@ -41,7 +41,7 @@ async def on_member_join(member):
     for channel in guild.channels:
         if channel.id == NCID:
             break
-    await channel.send(f'{member.name}, welcome!')
+    await channel.send(f'{member.name}, aadib and welcome!')
     await member.create_dm()
     await member.dm_channel.send(
         f'Hi {member.name}, welcome to my Discord server!'
