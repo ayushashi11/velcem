@@ -80,7 +80,7 @@ async def create_channel(ctx, channel_name='collablang'):
     if not existing_channel:
         print(f'Creating a new channel: {channel_name}')
         catg = discord.utils.get(guild.categories, name="Dağuur")
-        await guild.create_text_channel(channel_name,category=catf)
+        await guild.create_text_channel(channel_name,category=catg)
 @bot.command(name=".info",help="get server and user info")
 async def info(ctx):
     ret = f"Guild id:- {ctx.guild.id}\nMembers:\n- "
