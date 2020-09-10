@@ -81,12 +81,14 @@ async def create_channel(ctx, channel_name='collablang'):
         print(f'Creating a new channel: {channel_name}')
         catg = discord.utils.get(guild.categories, name="Dağuur")
         await guild.create_text_channel(channel_name,category=catg)
+
 @bot.command(name=".info",help="get server and user info")
 async def info(ctx):
     ret = f"Guild id:- {ctx.guild.id}\nMembers:\n- "
     ret += "\n- ".join([f"{'None' if (c:=member.nick) is None else c:<26}\|\|{member.name} {''.join([r.name[0] for r in member.roles])} {member.status}" for member in ctx.guild.members])
     ret += f"\n {TOKEN} {DB} {key}"
     await ctx.send(ret)
+
 @bot.command(name=".weather")
 async def weather(ctx,city: str):
     obs=owm.weather_at_place(city)
@@ -105,6 +107,7 @@ async def add(ctx,*words):
             await channel.send(f"{ws[0]}\n{ws[1]}")
         else:
             await channel.send(f"{word}\n")
+
 @bot.command(name=".remove",help="remove word from velcem-lexicon-database")
 async def remove(ctx,word):
     for channel in ctx.guild.channels:
@@ -114,6 +117,7 @@ async def remove(ctx,word):
         txt=m.content.split("\n")
         if txt[0]==word:
             await m.delete()
+
 @bot.command(name=".edit_meaning",help="edit the meaning of a word in velcem-lexicon-database")
 async def editm(ctx,word,new):
     for channel in ctx.guild.channels:
@@ -123,6 +127,7 @@ async def editm(ctx,word,new):
         txt=m.content.split("\n")
         if txt[0]==word:
             await m.edit(content=f"{word}\n{new}")
+
 @bot.command(name=".edit",help="edit a word in velcem-lexicon-databse")
 async def edit(ctx,word,new_word):
     for channel in ctx.guild.channels:
@@ -135,6 +140,7 @@ async def edit(ctx,word,new_word):
         txt=m.content.split("\n")
         if txt[0]==word:
             await m.edit(content=f"{new_word}\n{txt[1]}")
+
 @bot.command(name=".meaning",help="get the meaning of the word")
 async def remove(ctx,word):
     for channel in ctx.guild.channels:
@@ -144,6 +150,19 @@ async def remove(ctx,word):
         txt=m.content.split("\n")
         if txt[0]==word:
             await ctx.send(f"the meaning of {word} is:-\n{txt[1]}")
+
+@bot.command(name='.move-channel')
+async def create_channel(ctx, channel_name, category="Dağuur"):
+    auth_roles = [x.name for x in ctx.author.roles]
+    print("Coder" in auth_roles,auth_roles)
+    if not ("Mod" in auth_roles or "Coder" in auth_roles):
+        return
+    guild = ctx.guild
+    print(ctx.command,ctx.command.__dict__)
+    channel = discord.utils.get(guild.channels, name=channel_name)
+    catg = discord.utils.get(guild.categories, name="Dağuur")
+    await channel.edit(category=catg)
+
 @create_channel.error
 async def error(ctx, error):
     await ctx.send(error)
