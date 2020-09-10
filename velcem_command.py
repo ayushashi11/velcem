@@ -159,7 +159,7 @@ async def create_channel(ctx, channel_name, category="Dağuur"):
     guild = ctx.guild
     print(ctx.command,ctx.command.__dict__)
     channel = discord.utils.get(guild.channels, name=channel_name)
-    catg = discord.utils.get(guild.categories, name="Dağuur")
+    catg = discord.utils.get(guild.categories, name=category)
     await channel.edit(category=catg)
 
 @create_channel.error
