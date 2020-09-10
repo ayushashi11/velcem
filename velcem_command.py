@@ -144,7 +144,7 @@ async def remove(ctx,word):
         txt=m.content.split("\n")
         if txt[0]==word:
             await ctx.send(f"the meaning of {word} is:-\n{txt[1]}")
-@info.error
+@create_channel.error
 async def error(ctx, error):
     await ctx.send(error)
 bot.run(TOKEN)
