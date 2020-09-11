@@ -45,7 +45,7 @@ async def on_member_join(member):
     for channel in guild.channels:
         if channel.id == NCID:
             break
-    await channel.send(f'{member.name}, aadib and welcome!')
+    await channel.send(f'{member.mention}, aadib and welcome!')
     await member.create_dm()
 
 @client.event
@@ -83,7 +83,7 @@ async def on_member_remove(member):
     for channel in guild.channels:
         if channel.id == NCID:
             break
-    await channel.send(f'{member.name}, aader!')
+    await channel.send(f'{member.mention}, aader!')
 
 client.run(TOKEN)
 
