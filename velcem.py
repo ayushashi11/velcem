@@ -61,7 +61,7 @@ async def on_message(message):
     ret = ""
     cont = message.content
     for m in re.finditer(st,cont):
-        ret+="\n"+cont[n.start:m.end]
+        ret+="\n"+cont[m.start:m.end]
     if not len(ret):
         await message.channel.send(ret)
 
