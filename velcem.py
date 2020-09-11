@@ -30,7 +30,7 @@ async def on_ready():
         f'{client.user} is connected to the following guild:\n'
         f'{guild.name}(id: {guild.id})'
     )
-    #await channel.send("aadib kěwaxyooc!!" if not o else "")
+    await channel.send("aadib kěwaxyooc!!" if not o else "")
     o = True
     members = '\n - '.join([member.name for member in guild.members])
     print(f'Guild Members:\n - {members}')
@@ -71,9 +71,9 @@ async def on_message(message):
                                                 .replace("s1","š")
                                                 .replace("z1","ž")
                                                 .replace("2","\u0301"))
-    for m in re.finditer(st,cont):
+    for m in re.finditer(st_x,cont):
         print(m)
-        ret+="\n"+ipa.xsampa2ipa(cont[m.start():m.end()][2:-1])
+        ret+="\n"+ipa.xsampa2ipa(cont[m.start():m.end()][2:-1],"")
     if len(ret):
         print(m)
         await message.channel.send(ret)
