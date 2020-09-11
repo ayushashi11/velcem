@@ -1,5 +1,6 @@
 import os
 import re
+import ipa
 import ai_m2
 import discord
 from dotenv import load_dotenv
@@ -10,7 +11,8 @@ NCID=int(os.getenv("NCID"))
 MID=int(os.getenv("MID"))
 client = discord.Client()
 o = False
-st = re.compile(r"o\/(\w)+\/")
+st = re.compile(r"o<(\w)+>")
+st_x = re.compile(r"x\/(\S)+\/")
 @client.event
 async def on_ready():
     global o
@@ -28,7 +30,7 @@ async def on_ready():
         f'{client.user} is connected to the following guild:\n'
         f'{guild.name}(id: {guild.id})'
     )
-    await channel.send("aadib kěwaxyooc!!" if not o else "")
+    #await channel.send("aadib kěwaxyooc!!" if not o else "")
     o = True
     members = '\n - '.join([member.name for member in guild.members])
     print(f'Guild Members:\n - {members}')
@@ -62,9 +64,19 @@ async def on_message(message):
     cont = message.content
     for m in re.finditer(st,cont):
         print(m)
-        ret+="\n"+cont[m.start():m.end()]
-    print(ret)
+        ret+="\n"+(cont[m.start():m.end()][2:-1].replace("e1","ë")
+                                                .replace("a1","ě")
+                                                .replace("o1","ö")
+                                                .replace("g1","ğ")
+                                                .replace("s1","š")
+                                                .replace("z1","ž")
+                                                .replace("2","\u0301"))
+    for m in re.finditer(st,cont):
+        print(m)
+        ret+="\n"+ipa.xsampa2ipa(cont[m.start():m.end()][2:-1])
     if len(ret):
+        print(m)
         await message.channel.send(ret)
 
 client.run(TOKEN)
+

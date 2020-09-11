@@ -236,5 +236,5 @@ def translate_string(s, d):
 
 def xsampa2ipa(x,language):
     '''Return the IPA equivalent of X-SAMPA phone x.'''
-    (tl,ttf) = translate_string(x, phonecode_tables._xsampa_and_diac2ipa)
+    (tl,ttf) = translate_string(x, _xsampa_and_diac2ipa)
     return(''.join(tl))
