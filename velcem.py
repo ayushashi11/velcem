@@ -1,4 +1,5 @@
 import os
+import re
 import ai_m2
 import discord
 from dotenv import load_dotenv
@@ -9,6 +10,7 @@ NCID=int(os.getenv("NCID"))
 MID=int(os.getenv("MID"))
 client = discord.Client()
 o = False
+st = re.compile(r"o\/(\w)+\/")
 @client.event
 async def on_ready():
     global o
@@ -51,9 +53,12 @@ async def on_member_join(member):
 async def on_invite_create(invite):
     nm=invite.inviter.name
     await invite.channel.send(f"{nm} created an invite ")
-"""
+
 @client.event
 async def on_message(message):
-    print(message.channel.id)
-"""
+    ret=""
+    for m in re.finditer(st,message.content):
+        ret+="\n"+m.match[2:-1]
+    await ctx.send(ret)
+
 client.run(TOKEN)
