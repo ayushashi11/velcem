@@ -56,9 +56,13 @@ async def on_invite_create(invite):
 
 @client.event
 async def on_message(message):
-    ret=""
-    for m in re.finditer(st,message.content):
-        ret+="\n"+m.match[2:-1]
-    await ctx.send(ret)
+    if message.author.id == client.id:
+        return
+    ret = ""
+    cont = message.content
+    for m in re.finditer(st,cont):
+        ret+="\n"+cont[n.start:m.end]
+    if not len(ret):
+        await message.channel.send(ret)
 
 client.run(TOKEN)
