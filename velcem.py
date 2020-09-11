@@ -47,9 +47,6 @@ async def on_member_join(member):
             break
     await channel.send(f'{member.name}, aadib and welcome!')
     await member.create_dm()
-    await member.dm_channel.send(
-        f'Hi {member.name}, welcome to my Discord server!'
-    )
 
 @client.event
 async def on_invite_create(invite):
@@ -77,6 +74,16 @@ async def on_message(message):
     if len(ret):
         print(m)
         await message.channel.send(ret)
+
+@client.event
+async def on_member_remove(member):
+    for guild in client.guilds:
+        if guild.id == GUILD:
+            break
+    for channel in guild.channels:
+        if channel.id == NCID:
+            break
+    await channel.send(f'{member.name}, aader!')
 
 client.run(TOKEN)
 
