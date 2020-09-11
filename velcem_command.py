@@ -145,10 +145,12 @@ async def remove(ctx,word):
     for channel in ctx.guild.channels:
         if channel.id == DB:
             break
+    ret=""
     async for m in channel.history():
         txt=m.content.split("\n")
         if txt[0]==word:
-            await ctx.send(f"the meaning of {word} is:-\n{txt[1]}")
+            ret+=f"\n*{txt[1]}*"
+    await ctx.send(f"__{word}__ :-"+("no meaning yet" if not len(ret) else ret))
 
 @bot.command(name='.move-channel')
 async def create_channel(ctx, channel_name, category="Dağuur"):
