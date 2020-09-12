@@ -72,7 +72,7 @@ async def on_message(message):
         print(m)
         ret+="\n"+ipa.xsampa2ipa(cont[m.start():m.end()][2:-1],"")
     if len(ret):
-        print(m)
+        await message.edit(content=cont+ret)
         await message.channel.send(ret)
 
 @client.event
