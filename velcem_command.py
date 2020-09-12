@@ -112,7 +112,7 @@ async def remove(ctx,word):
     for channel in ctx.guild.channels:
         if channel.id == DB:
             break
-    async for m in channel.history():
+    async for m in channel.history(limit=10000):
         txt=m.content.split("\n")
         if txt[0]==word:
             await m.delete()
@@ -122,7 +122,7 @@ async def editm(ctx,word,new):
     for channel in ctx.guild.channels:
         if channel.id == DB:
             break
-    async for m in channel.history():
+    async for m in channel.history(limit=10000):
         txt=m.content.split("\n")
         if txt[0]==word:
             await m.edit(content=f"{word}\n{new}")
@@ -135,18 +135,18 @@ async def edit(ctx,word,new_word):
     else:
         await ctx.send(f"{DB} id not found")
         return
-    async for m in channel.history():
+    async for m in channel.history(limit=10000):
         txt=m.content.split("\n")
         if txt[0]==word:
             await m.edit(content=f"{new_word}\n{txt[1]}")
 
 @bot.command(name=".meaning",help="get the meaning of the word")
-async def remove(ctx,word):
+async def meaning(ctx,word):
     for channel in ctx.guild.channels:
         if channel.id == DB:
             break
     ret=""
-    async for m in channel.history():
+    async for m in channel.history(limit=10000):
         txt=m.content.split("\n")
         if txt[0]==word:
             ret+=f"\n*{txt[1]}*"
