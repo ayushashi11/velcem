@@ -152,6 +152,18 @@ async def meaning(ctx,word):
             ret+=f"\n*{txt[1]}*"
     await ctx.send(f"__{word}__ :-"+("no meaning yet" if not len(ret) else ret))
 
+@bot.command(name=".search",help="search the word from meaning")
+async def meaning(ctx,word,limit:int=10000):
+    for channel in ctx.guild.channels:
+        if channel.id == DB:
+            break
+    ret=""
+    async for m in channel.history(limit=limit):
+        txt=m.content.split("\n")
+        if len(txt)>=2 and word in txt[1]:
+            ret+=f"\n*{txt[0]}*"
+    await ctx.send(f"possible translations of __{word}__ :-"+(" none" if not len(ret) else ret))
+
 @bot.command(name='.move-channel')
 async def create_channel(ctx, channel_name, category="Dağuur"):
     auth_roles = [x.name for x in ctx.author.roles]
