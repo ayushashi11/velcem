@@ -63,7 +63,7 @@ def search2(topic):
 def search(topic):
                try:
                               p=page(topic)
-                              return s_print([p.title]+p.content.split('.')[:2])
+                              return s_print([p.title,p.content])
                except PageError:
                               return search2(topic)
                except DisambiguationError:
