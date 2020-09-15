@@ -176,7 +176,10 @@ async def create_channel(ctx, channel_name, category="Dağuur"):
     catg = discord.utils.get(guild.categories, name=category)
     await channel.edit(category=catg)
 
-@create_channel.error
+@bot.command(name=".listdir")
+async def list(ctx):
+    await ctx.send("\n".join(os.listdir()))
+@list.error
 async def error(ctx, error):
     await ctx.send(error)
 bot.run(TOKEN)
