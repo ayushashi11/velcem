@@ -3,6 +3,7 @@ import os
 import discord
 import ai_m2
 import random
+import subprocess as sb
 from discord.ext import commands
 from pyowm import *
 from math import *
@@ -179,6 +180,10 @@ async def create_channel(ctx, channel_name, category="Dağuur"):
 @bot.command(name=".listdir")
 async def list(ctx):
     await ctx.send("\n".join(os.listdir()))
+
+@bot.command(name=".test")
+async def meaning(ctx,text):
+    await ctx.send(sb.run(text.split(" "),stdout=sb.PIPE).stdout.decode())
 @list.error
 async def error(ctx, error):
     await ctx.send(error)
