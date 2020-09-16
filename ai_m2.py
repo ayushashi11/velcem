@@ -63,7 +63,7 @@ def search2(topic):
 def search(topic):
                try:
                               p=page(topic)
-                              return s_print([p.title,p.summary])
+                              return s_print([p.title,p.summary[:1994-len(p.url)],"\b...",p.url])
                except PageError:
                               return search2(topic)
                except DisambiguationError:
