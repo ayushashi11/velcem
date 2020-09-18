@@ -186,7 +186,7 @@ async def meaning(ctx,text):
     await ctx.send(sb.run(text.split(" "),stdout=sb.PIPE).stdout.decode())
 
 @bot.command(name="play")
-async def connect(ctx, name: str, chan: discord.VoiceChannel):
+async def play(ctx, name: str, chan: discord.VoiceChannel):
     vc=ctx.voice_client
     if vc:
         await vc.move_to(chan)
@@ -204,7 +204,7 @@ async def disconnect(ctx):
     vc=ctx.voice_client
     await vc.disconnect()
 
-@list.error
+@play.error
 async def error(ctx, error):
     await ctx.send(error)
 bot.run(TOKEN)
