@@ -184,6 +184,26 @@ async def list(ctx):
 @bot.command(name=".test")
 async def meaning(ctx,text):
     await ctx.send(sb.run(text.split(" "),stdout=sb.PIPE).stdout.decode())
+
+@bot.command(name="play")
+async def connect(ctx, name: str, chan: discord.VoiceChannel):
+    vc=ctx.voice_client
+    if vc:
+        await vc.move_to(chan)
+    else:
+        await chan.connect()
+        vc=ctx.voice_client
+    vc.play(discord.FFmpegPCMAudio(name.lower()'.mp3'), after=lambda e: print(f"Finished playing: {e}"))
+
+    # Lets set the volume to 1
+    vc.source = discord.PCMVolumeTransformer(vc.source)
+    vc.source.volume = 1
+
+@bot.command()
+async def disconnect(ctx):
+    vc=ctx.voice_client
+    await vc.disconnect()
+
 @list.error
 async def error(ctx, error):
     await ctx.send(error)
