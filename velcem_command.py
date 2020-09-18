@@ -193,7 +193,7 @@ async def connect(ctx, name: str, chan: discord.VoiceChannel):
     else:
         await chan.connect()
         vc=ctx.voice_client
-    vc.play(discord.FFmpegPCMAudio(name.lower()'.mp3'), after=lambda e: print(f"Finished playing: {e}"))
+    vc.play(discord.FFmpegPCMAudio(name.lower()+'.mp3'), after=lambda e: print(f"Finished playing: {e}"))
 
     # Lets set the volume to 1
     vc.source = discord.PCMVolumeTransformer(vc.source)
