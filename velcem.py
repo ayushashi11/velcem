@@ -30,7 +30,7 @@ async def on_ready():
         f'{client.user} is connected to the following guild:\n'
         f'{guild.name}(id: {guild.id})'
     )
-    await channel.send("aadib kěwaxyooc!!" if not o else "")
+    await channel.send("aadib kěwağooc!!" if not o else "")
     o = True
     members = '\n - '.join([member.name for member in guild.members])
     print(f'Guild Members:\n - {members}')
