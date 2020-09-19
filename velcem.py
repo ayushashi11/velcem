@@ -73,6 +73,11 @@ async def on_message(message):
         ret+="\n"+ipa.xsampa2ipa(cont[m.start():m.end()][2:-1],"")
     if len(ret):
         await message.channel.send(ret)
+    if message.content.startswith('!hello'):
+        embedVar = discord.Embed(title="Title", description="Desc", color=0x00ff00)
+        embedVar.add_field(name="Field1", value="hi", inline=False)
+        embedVar.add_field(name="Field2", value="hi2", inline=False)
+        await message.channel.send(embed=embedVar)
 
 @client.event
 async def on_member_remove(member):
