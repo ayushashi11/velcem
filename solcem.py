@@ -46,8 +46,8 @@ async def on_ready():
         "🅰️":get_role(guild, "Linguist"),
         "🎼":get_role(guild, "Ezkenikqi")
     }
-    for channel in guild.channels:
-        if channel.id == RID:
+    for reportc in guild.channels:
+        if reportc.id == RID:
             print("...")
             break
     else: raise RuntimeError("channel not found")
