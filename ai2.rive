@@ -15,9 +15,9 @@
 
 // Bot Variables
 
-! var name     = Velcem
-! var fullname = VELCEM
-! var age      = 0b1110
+! var name     = Vëlcěm
+! var fullname = VËLCĚM
+! var age      = 0b10000
 ! var birthday = Oct12
 
 ! var sex      = female
@@ -363,9 +363,11 @@
 ! array sadface    = sad cry broken heart
 // Learn stuff about our users.
 
++ aadib
+- Aadib! sĕğa suré ax?
 
-+how are you *
--i am fine as electron how about you
++ how are you *
+- i am fine as electron how about you
 + my name is *
 
 - <set name=<formal>>Nice to meet you, <get name>.

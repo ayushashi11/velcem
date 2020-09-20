@@ -6,6 +6,7 @@ import discord
 from dotenv import load_dotenv
 load_dotenv()
 TOKEN=os.getenv("TOKEN2")
+TID=os.getenv("TID")
 GUILD=int(os.getenv("GUILD"))
 NCID=int(os.getenv("NCID"))
 MID=int(os.getenv("MID"))
@@ -26,12 +27,13 @@ async def on_ready():
             print("..")
             break
     else: raise RuntimeError("channel not found")
+    tc = discord.utils.find(lambda g: g.name == TID, guild.channels)
     print(
         f'{client.user} is connected to the following guild:\n'
         f'{guild.name}(id: {guild.id})'
     )
     if not o:
-        await channel.send("aadib kěwağooc!!")
+        await channel.send("aadib kěwağaj!!")
         o = True
     members = '\n - '.join([member.name for member in guild.members])
     print(f'Guild Members:\n - {members}')
