@@ -182,13 +182,9 @@ async def create_channel(ctx, channel_name, category="Dağuur"):
     catg = discord.utils.get(guild.categories, name=category)
     await channel.edit(category=catg)
 
-@bot.command(name=".listdir")
-async def list(ctx):
-    await ctx.send("\n".join(os.listdir()))
-
-@bot.command(name=".test")
-async def meaning(ctx,text):
-    await ctx.send(sb.run(text.split(" "),stdout=sb.PIPE).stdout.decode())
+@bot.command(name=".report", help="report a message using v.report **link**")
+async def test(ctx,text: discord.Message):
+    await text.add_reaction("😠")
 
 @bot.command(name="play")
 async def play(ctx, name: str, chan: discord.VoiceChannel):
@@ -209,7 +205,7 @@ async def disconnect(ctx):
     vc=ctx.voice_client
     await vc.disconnect()
 
-@editm.error
+@test.error
 async def error(ctx, error):
     await ctx.send(error)
 bot.run(TOKEN)

@@ -9,14 +9,16 @@ TOKEN=os.getenv("TOKEN2")
 GUILD=int(os.getenv("GUILD"))
 NCID=int(os.getenv("NCID"))
 MID=int(os.getenv("MID"))
+RID=int(os.getenv("RID"))
 client = discord.Client()
-o = False
+o = True
 st = re.compile(r"o<(\w)+>")
 st_x = re.compile(r"x\/(\S)+\/")
 guild = None
 channel = None
 id = 757192072208842773
 roleg = {}
+reportc = None
 
 def get_role(guild, name):
     tc = discord.utils.find(lambda g: g.name==name, guild.roles)
@@ -24,7 +26,7 @@ def get_role(guild, name):
 
 @client.event
 async def on_ready():
-    global o, guild, channel, roleg
+    global o, guild, channel, roleg, reportc
     for guild in client.guilds:
         if guild.id == GUILD:
             print(".")
@@ -44,6 +46,11 @@ async def on_ready():
         "🅰️":get_role(guild, "Linguist"),
         "🎼":get_role(guild, "Ezkenikqi")
     }
+    for channel in guild.channels:
+        if channel.id == RID:
+            print("...")
+            break
+    else: raise RuntimeError("channel not found")
     print(
         f'{client.user} is connected to the following guild:\n'
         f'{guild.name}(id: {guild.id})'
@@ -61,6 +68,14 @@ async def on_ready():
 async def on_raw_reaction_add(reaction):
     print(reaction)
     if reaction.message_id != id:
+        if reaction.emoji.name != "😠":
+            return
+        chan = discord.utils.find(lambda g: g.id==reaction.channel_id, guild.channels)
+        message = discord.utils.find(lambda g: g.id==reaction.message_id, await chan.history(limit=25).flatten())
+        ln=(discord.utils.find(lambda r: r.emoji == "😠", message.reactions)).count
+        if ln>=3:
+            await reportc.send(f"The message ||{message.content}|| by {message.author.mention} was flagged offensive.")
+            await messages.delete()
         return
     await reaction.member.add_roles(roleg[reaction.emoji.name])
 
