@@ -30,8 +30,9 @@ async def on_ready():
         f'{client.user} is connected to the following guild:\n'
         f'{guild.name}(id: {guild.id})'
     )
-    await channel.send("aadib kěwağooc!!" if not o else "")
-    o = True
+    if not o:
+        await channel.send("aadib kěwağooc!!")
+        o = True
     members = '\n - '.join([member.name for member in guild.members])
     print(f'Guild Members:\n - {members}')
     cs = '\n - '.join([channel.name+" "+str(channel.id) for channel in guild.channels])
@@ -45,7 +46,13 @@ async def on_member_join(member):
     for channel in guild.channels:
         if channel.id == NCID:
             break
-    await channel.send(f'{member.mention}, aadib and welcome!')
+    #await channel.send(f'{member.mention}, aadib and welcome!')
+    embedVar = discord.Embed(title="Aadib noowědyoone!", description=f"{member.name} joined the sever", color=0x00ff00)
+    print(member.avatar_url)
+    embedVar.set_author(name="velcem")
+    embedVar.set_thumbnail(url=member.avatar_url)
+    embedVar.add_field(name="Welcome", value="You can start by going to `#start`.\nAlso dont forget to write your introduction in this channel.", inline=False)
+    await channel.send(embed=embedVar)
     await member.create_dm()
 
 @client.event
