@@ -6,17 +6,25 @@ import discord
 from dotenv import load_dotenv
 load_dotenv()
 TOKEN=os.getenv("TOKEN2")
-TID=os.getenv("TID")
 GUILD=int(os.getenv("GUILD"))
 NCID=int(os.getenv("NCID"))
 MID=int(os.getenv("MID"))
 client = discord.Client()
-o = False
+o = True
 st = re.compile(r"o<(\w)+>")
 st_x = re.compile(r"x\/(\S)+\/")
+guild = None
+channel = None
+id = 757192072208842773
+roleg = {}
+
+def get_role(guild, name):
+    tc = discord.utils.find(lambda g: g.name==name, guild.roles)
+    return tc
+
 @client.event
 async def on_ready():
-    global o
+    global o, guild, channel, roleg
     for guild in client.guilds:
         if guild.id == GUILD:
             print(".")
@@ -27,7 +35,15 @@ async def on_ready():
             print("..")
             break
     else: raise RuntimeError("channel not found")
-    tc = discord.utils.find(lambda g: g.name == TID, guild.channels)
+    roleg = {
+        "♂️":get_role(guild, "Pronouns:- he/him"),
+        "♀️":get_role(guild, "Pronouns:- she/her"),
+        "♐":get_role(guild, "Pronouns:- they/them"),
+        "🅾️":get_role(guild, "Pronouns:- ask me/others"),
+        "💻":get_role(guild, "Coder"),
+        "🅰️":get_role(guild, "Linguist"),
+        "🎼":get_role(guild, "Ezkenikqi")
+    }
     print(
         f'{client.user} is connected to the following guild:\n'
         f'{guild.name}(id: {guild.id})'
@@ -36,9 +52,25 @@ async def on_ready():
         await channel.send("aadib kěwağaj!!")
         o = True
     members = '\n - '.join([member.name for member in guild.members])
-    print(f'Guild Members:\n - {members}')
+    roles = '\n - '.join([role.name for role in guild.roles])
+    print(f'Guild Members:\n - {members} \n \n{roles}')
     cs = '\n - '.join([channel.name+" "+str(channel.id) for channel in guild.channels])
     print(f"Channels:\n - {cs}")
+
+@client.event
+async def on_raw_reaction_add(reaction):
+    print(reaction)
+    if reaction.message_id != id:
+        return
+    await reaction.member.add_roles(roleg[reaction.emoji.name])
+
+@client.event
+async def on_raw_reaction_remove(reaction):
+    print(reaction)
+    user = discord.utils.find(lambda g: g.id==reaction.user_id, guild.members)
+    if reaction.message_id != id:
+        return
+    await user.remove_roles(roleg[reaction.emoji.name])
 
 @client.event
 async def on_member_join(member):
@@ -51,7 +83,7 @@ async def on_member_join(member):
     #await channel.send(f'{member.mention}, aadib and welcome!')
     embedVar = discord.Embed(title="Aadib noowědyoone!", description=f"{member.name} joined the sever", color=0x00ff00)
     print(member.avatar_url)
-    embedVar.set_author(name="velcem")
+    embedVar.set_author(name="solcěm")
     embedVar.set_thumbnail(url=member.avatar_url)
     embedVar.add_field(name="Welcome", value="You can start by going to `#start`.\nAlso dont forget to write your introduction in this channel.", inline=False)
     await channel.send(embed=embedVar)
