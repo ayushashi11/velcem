@@ -209,7 +209,7 @@ async def disconnect(ctx):
     vc=ctx.voice_client
     await vc.disconnect()
 
-@play.error
+@editm.error
 async def error(ctx, error):
     await ctx.send(error)
 bot.run(TOKEN)
