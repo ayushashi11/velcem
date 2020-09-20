@@ -54,6 +54,7 @@ async def ranwords(ctx, len: int=1):
     await ctx.send(" ".join([word() for _ in range(len)]))
 @bot.command(name='.',help='talk to velcem')
 async def on_message(ctx, *messages):
+    await ctx.trigger_typing()
     message=" ".join(messages)
     print(message)
     await ctx.send(ai_m2.reply(message))
@@ -91,6 +92,7 @@ async def info(ctx):
 
 @bot.command(name=".weather")
 async def weather(ctx,city: str):
+    await ctx.trigger_typing()
     obs=owm.weather_at_place(city)
     ret=json.loads(obs.to_JSON())['Weather']
     print(ret)
@@ -123,6 +125,7 @@ async def editm(ctx,word,new):
     for channel in ctx.guild.channels:
         if channel.id == DB:
             break
+    await channel.trigger_typing()
     async for m in channel.history(limit=10000):
         txt=m.content.split("\n")
         if txt[0]==word:
@@ -143,6 +146,7 @@ async def edit(ctx,word,new_word):
 
 @bot.command(name=".meaning",help="get the meaning of the word")
 async def meaning(ctx,word):
+    await ctx.trigger_typing()
     for channel in ctx.guild.channels:
         if channel.id == DB:
             break
@@ -155,6 +159,7 @@ async def meaning(ctx,word):
 
 @bot.command(name=".search",help="search the word from meaning")
 async def meaning(ctx,word,limit:int=10000):
+    await ctx.trigger_typing()
     for channel in ctx.guild.channels:
         if channel.id == DB:
             break
