@@ -75,7 +75,7 @@ async def on_raw_reaction_add(reaction):
         ln=(discord.utils.find(lambda r: r.emoji == "😠", message.reactions)).count
         if ln>=3:
             await reportc.send(f"The message ||{message.content}|| by {message.author.mention} was flagged offensive.")
-            await messages.delete()
+            await message.delete()
         return
     await reaction.member.add_roles(roleg[reaction.emoji.name])
 
