@@ -5,7 +5,7 @@ import ai_m2
 import discord
 from dotenv import load_dotenv
 load_dotenv()
-TOKEN=os.getenv("TOKEN")
+TOKEN=os.getenv("TOKEN2")
 GUILD=int(os.getenv("GUILD"))
 NCID=int(os.getenv("NCID"))
 MID=int(os.getenv("MID"))
@@ -97,4 +97,3 @@ async def on_member_remove(member):
     await channel.send(f'{member.mention}, aader!')
 
 client.run(TOKEN)
-
