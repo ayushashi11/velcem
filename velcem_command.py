@@ -162,8 +162,9 @@ async def meaning(ctx,word):
             ret+=f"\n**{c}.**_{txt[1]}_"
             mess_ret+="\n"+",".join(f"{r.emoji}{rxn[r.emoji]}" for r in m.reactions)
             c+=1
-    embedVar.add_field(name="Parts of speech", value=mess_ret if mess_ret else "none", inline=True)
-    embedVar.add_field(name="Meanings", value=ret if ret else "none", inline=False)
+    print(len(mess_ret.strip()),repr(mess_ret))
+    embedVar.add_field(name="Parts of speech", value=(mess_ret if mess_ret.strip() else "none"), inline=True)
+    embedVar.add_field(name="Meanings", value=(ret if ret else "none"), inline=False)
     await ctx.send(embed=embedVar)
 
 @bot.command(name=".search",help="search the word from meaning")

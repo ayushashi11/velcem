@@ -3,6 +3,7 @@ import re
 import ipa
 import ai_m2
 import discord
+import asyncio
 from dotenv import load_dotenv
 load_dotenv()
 TOKEN=os.getenv("TOKEN2")
@@ -11,7 +12,7 @@ NCID=int(os.getenv("NCID"))
 MID=int(os.getenv("MID"))
 RID=int(os.getenv("RID"))
 client = discord.Client()
-o = True
+o = False
 st = re.compile(r"o<(\w)+>")
 st_x = re.compile(r"x\/(\S)+\/")
 guild = None
@@ -42,7 +43,7 @@ async def on_ready():
         "♀️":get_role(guild, "Pronouns:- she/her"),
         "♐":get_role(guild, "Pronouns:- they/them"),
         "🅾️":get_role(guild, "Pronouns:- ask me/others"),
-        "💻":get_role(guild, "Coder"),
+        "💻":get_role(guild, "Hiiduk"),
         "🅰️":get_role(guild, "Linguist"),
         "🎼":get_role(guild, "Ezkenikqi")
     }
@@ -76,6 +77,9 @@ async def on_raw_reaction_add(reaction):
         if ln>=3:
             await reportc.send(f"The message ||{message.content}|| by {message.author.mention} was flagged offensive.")
             await message.delete()
+            await message.author.add_roles(get_role(guild, "warning given"))
+            await asyncio.sleep(12*60*60)
+            await message.author.remove_roles(get_role(guild, "warning given"))
         return
     await reaction.member.add_roles(roleg[reaction.emoji.name])
 
