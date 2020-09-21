@@ -363,6 +363,13 @@
 ! array sadface    = sad cry broken heart
 // Learn stuff about our users.
 
+> object base64 python
+    import base64 as b64
+    return b64.b64encode((" ".join(args)).encode())
+< object
++ encode * in base64
+- OK: <call>base64 <star></call>
+
 + aadib
 - Aadib! sĕğa suré ax?
 

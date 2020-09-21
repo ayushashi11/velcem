@@ -66,7 +66,7 @@ async def on_ready():
 
 @client.event
 async def on_raw_reaction_add(reaction):
-    print(reaction)
+    print(reaction.emoji.name)
     if reaction.message_id != id:
         if reaction.emoji.name != "😠":
             return

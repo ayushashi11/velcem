@@ -28,6 +28,7 @@ N="ŋ n m".split()
 n0=0.30*c1
 S=["s","z","š","ž"]
 s0=0.09*c1
+rxn={'🇮':'interjection', '🇵':'prefix', '🇸':'suffix', '🇨':'circumfix', '🇳':'noun', '🇩':'denonym', '🇻':'verb', '🇧':'adverb', '🇦':'adjective', '🇺':'pronoun', '🇰':'conjunction'}
 def word():
     ret=""
     l=1
@@ -146,16 +147,24 @@ async def edit(ctx,word,new_word):
 
 @bot.command(name=".meaning",help="get the meaning of the word")
 async def meaning(ctx,word):
+    global rxn
     await ctx.trigger_typing()
     for channel in ctx.guild.channels:
         if channel.id == DB:
             break
     ret=""
+    mess_ret=""
+    embedVar = discord.Embed(title=f"__{word}__", description="meaning", color=0xabcdef)
+    c=1
     async for m in channel.history(limit=10000):
         txt=m.content.split("\n")
         if txt[0]==word:
-            ret+=f"\n*{txt[1]}*"
-    await ctx.send(f"__{word}__ :-"+("no meaning yet" if not len(ret) else ret))
+            ret+=f"\n**{c}.**_{txt[1]}_"
+            mess_ret+="\n"+",".join(f"{r.emoji}{rxn[r.emoji]}" for r in m.reactions)
+            c+=1
+    embedVar.add_field(name="Parts of speech", value=mess_ret if mess_ret else "none", inline=True)
+    embedVar.add_field(name="Meanings", value=ret if ret else "none", inline=False)
+    await ctx.send(embed=embedVar)
 
 @bot.command(name=".search",help="search the word from meaning")
 async def meaning(ctx,word,limit:int=10000):
